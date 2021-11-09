@@ -48,7 +48,7 @@ zscores_qvals=function(x,outlier.method="mahalanobis",estim="pairwiseGK",pval.co
 }
 
 ### plot qvalues
-plot.manhattan=function(x=x$pvals$pvals$p.values,ylim=c(0,200),xlab="",ylab="-log(p-value)",col=x$chr, pch="*",h=10, lcol="blue",...){
+plot.manhattan=function(x,ylim=c(0,200),xlab="",ylab="-log(p-value)",col=1:22L, pch="*",h=10, lcol="blue",...){
   plot(-log10(x), ylim=ylim, xlab=xlab,ylab = ylab , col=col, pch="*")
   abline(h=h, col=lcol)
 }
