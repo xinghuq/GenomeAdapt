@@ -1,26 +1,47 @@
 \name{GenomeAdapt}
 \alias{GenomeAdapt}
+\alias{GenomeAdapt.bed}
+\alias{GenomeAdapt.vcf}
+\alias{GenomeAdapt.gds}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{Detecting signatures of local adaptation based on multidimensional ancestry genetic map 
+\title{Detecting signatures of local adaptation based on multidimensional ancestry genetic map
 %%  ~~function to do ... ~~
 }
-\description{This function implements genome scan to identify the 
+\description{This function implements genome scan to identify the
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-GenomeAdapt(genfile, method="EIGMIX",autosome.only=TRUE, remove.monosnp=TRUE, maf=NaN, missing.rate=NaN,...)
+GenomeAdapt(genfile, method = "EIGMIX", sample.id = NULL, snp.id =
+                    NULL, autosome.only = TRUE, remove.monosnp = TRUE, maf
+                    = NaN, missing.rate = NaN, num.thread = 1L, out.fn =
+                    NULL, out.prec = c("double", "single"), out.compress =
+                    "LZMA_RA", with.id = TRUE, verbose = TRUE,...)
 
 ## S3 method for class 'GenomeAdapt.bed'
-GenomeAdapt.bed(genfile, method = "EIGMIX", autosome.only = TRUE, remove.monosnp = TRUE, maf = NaN, missing.rate = NaN, ...)
+GenomeAdapt.bed(genfile, method = "EIGMIX", sample.id = NULL, snp.id =
+                    NULL, autosome.only = TRUE, remove.monosnp = TRUE, maf
+                    = NaN, missing.rate = NaN, num.thread = 1L, out.fn =
+                    NULL, out.prec = c("double", "single"), out.compress =
+                    "LZMA_RA", with.id = TRUE, verbose = TRUE, ...)
+
 ## S3 method for class 'GenomeAdapt.vcf'
-GenomeAdapt.bed(genfile, method = "EIGMIX", autosome.only = TRUE, remove.monosnp = TRUE, maf = NaN, missing.rate = NaN, ...)
+GenomeAdapt.vcf(genfile, method = "EIGMIX", sample.id = NULL, snp.id =
+                    NULL, autosome.only = TRUE, remove.monosnp = TRUE, maf
+                    = NaN, missing.rate = NaN, num.thread = 1L, out.fn =
+                    NULL, out.prec = c("double", "single"), out.compress =
+                    "LZMA_RA", with.id = TRUE, verbose = TRUE, ...)
+
 ## S3 method for class 'GenomeAdapt.gds'
-GenomeAdapt.bed(genfile, method = "EIGMIX", autosome.only = TRUE, remove.monosnp = TRUE, maf = NaN, missing.rate = NaN, ...)
+GenomeAdapt.gds(genfile, method = "EIGMIX", sample.id = NULL, snp.id =
+                    NULL, autosome.only = TRUE, remove.monosnp = TRUE, maf
+                    = NaN, missing.rate = NaN, num.thread = 1L, out.fn =
+                    NULL, out.prec = c("double", "single"), out.compress =
+                    "LZMA_RA", with.id = TRUE, verbose = TRUE, ...)
 }
 
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{genfile}{ Genotype file containg sample ID and SNP ID. Genotype format can be plink, vcf, or GDS file. 
+  \item{genfile}{ Genotype file containg sample ID and SNP ID. Genotype format can be plink, vcf, or GDS file.
 %%     ~~Describe \code{genfile} here~~
 }
 \item{method}{The method used to measure IBD. Default is "EIGMIX" according to Zheng, X., & Weir, B. S. (2016). "GCTA" - genetic relationship matrix defined in CGTA; "Eigenstrat" - genetic covariance matrix in EIGENSTRAT; "EIGMIX" - two times coancestry matrix defined in Zheng & Weir (2015), "Weighted" - weighted GCTA, as the same as "EIGMIX", "Corr" - Scaled GCTA GRM (dividing each i,j element by the product of the square root of the i,i and j,j elements), "IndivBeta" - two times individual beta estimate relative to the minimum of beta.
@@ -47,12 +68,20 @@ GenomeAdapt.bed(genfile, method = "EIGMIX", autosome.only = TRUE, remove.monosnp
 \item{num.thread}{the number of (CPU) cores used; if NA, detect the number of cores automatically
 %%     ~~Describe \code{\dots} here~~
 }
-  \item{dots}{passing to other SNP filtering parameters
-%%     ~~Describe \code{\dots} here~~
-}
+\item{out.fn}{NULL for no GDS output, or a file name}
+
+\item{out.prec}{double or single precision for storage}
+
+\item{out.compress}{the compression method for storing the GRM matrix in the GDS file}
+
+\item{with.id}{if TRUE, the returned value with sample.id and sample.id}
+
+\item{verbose}{if TRUE, show information}
+
+\item{...}{passing to other SNP filtering parameters}
 
 }
-\details{The method estimates the z-score of each locus/allele relating to the multidimensional ancestry spaces. 
+\details{The method estimates the z-score of each locus/allele relating to the multidimensional ancestry spaces.
 If there are n samples, there will be _n_ * _n_ ancestry genetic trajectories, with an eigen decomposition, producting _n_ dimensional spaces that represent the common ancestry maps.
 This method was conceived combining the idea of KLFDAPT (Qin, 2021<DOI: 10.1101/2021.05.15.444294>.https://xinghuq.github.io/KLFDAPC/articles/Genome_scan_KLFDAPC.html) and IBD-based genome scan (Albrechtsen et al., 2010)<doi: 10.1534/genetics.110.113977>. With an eigenvector decomposition of IBD (Zheng & Weir 2016)), we can estimate the population ancestry propotion. It is competitive to pcadapt (Luu, 2016) <doi:10.1111/1755-0998.12592>, as it considers _n_ latent genetic spaces (which is different from pcadapt that chooses _k_ components from _p_ eigenverctors).
 %%  ~~ If necessary, more details than the description above ~~
@@ -66,6 +95,7 @@ This method was conceived combining the idea of KLFDAPT (Qin, 2021<DOI: 10.1101/
 %% ...
 }
 \references{
+
 Qin, X., Chiang, C. W., & Gaggiotti, O. E. (2021). Kernel Local Fisher Discriminant Analysis of Principal Components (KLFDAPC) significantly improves the accuracy of predicting geographic origin of individuals. bioRxiv.
 
 Zheng, X., & Weir, B. S. (2016). Eigenanalysis of SNP data with an identity by descent interpretation. Theoretical population biology, 107, 65-76.
@@ -81,7 +111,8 @@ Duforet-Frebourg, N., Luu, K., Laval, G., Bazin, E., & Blum, M. G. (2016). Detec
 \examples{
 ### using an example dataset (HapMap)to conduct the genome scan
 
-HapmapScan=GenomeAdapt.gds(genfile = SNPRelate::snpgdsExampleFileName(),method="EIGMIX",num.thread = 6, autosome.only=TRUE, remove.monosnp=TRUE, maf=0.01, missing.rate=0.1)
+HapmapScan=GenomeAdapt.gds(genfile = SNPRelate::snpgdsExampleFileName(),method="EIGMIX",
+num.thread = 6, autosome.only=TRUE, remove.monosnp=TRUE, maf=0.01, missing.rate=0.1)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

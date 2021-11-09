@@ -54,26 +54,10 @@ library("GenomeAdapt")
 HapmapScan=GenomeAdapt.gds(genfile = SNPRelate::snpgdsExampleFileName(),method="EIGMIX",num.thread = 6, autosome.only=TRUE, remove.monosnp=TRUE, maf=0.01, missing.rate=0.1)
 
 ## it takes a while to finish this
-## We get the z-scores for loci relating to the ancestry trajectories
-## calculate the p-values for loci
 
-Hapmapqval=zscores_qvals(HapmapScan)
 
 ```
 
-## Plot the Manhattan plot  
-
-After converting the z-scores of loci to (q)p-values, we plot the manhattan plot to show the p-values.
-
-```{r fig1, fig.height = 5, fig.width = 8.5, fig.align = "center"} 
-
-## plot
-
- plot.manhattan(Hapmapqval$pvals$pvals$p.values,col=Hapmapqval$chr)
-
-```
-
-Fig.1 Manhattan plot of Hapmap dataset for detecting signals of local adaptation.
 
 ## Estimating the ancestry proportion and plot the ancestry admixture 
 
@@ -102,9 +86,25 @@ PlotAdmix(Admixpro,group=as.factor(pop_code), xlab="Individuals",multiplot = FAL
 
 ```
 
-Fig.2 The ancestry admixture plot for Hapmap dataset.
+Fig.1. The ancestry admixture plot for Hapmap dataset.
 
 
+## Plot the Manhattan plot  
+
+We can get the z-scores for loci relating to the ancestry trajectories from GenomeAdapt object, then plot the manhattan plot to show the p-values.
+
+```{r fig1, fig.height = 5, fig.width = 8.5, fig.align = "center"} 
+
+
+## Calculating the Z-score for loci  
+ Hapmapqval=zscores_qvals(HapmapScan)
+## plot
+
+ plotmanhattan(Hapmapqval$pvals$pvals$p.values,col=Hapmapqval$chr)
+
+```
+
+Fig.2. Manhattan plot of Hapmap dataset for detecting signals of local adaptation.
 
 
 

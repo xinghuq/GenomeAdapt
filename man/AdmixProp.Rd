@@ -43,16 +43,18 @@ Zheng, X., Levine, D., Shen, J., Gogarten, S. M., Laurie, C., & Weir, B. S. (201
 ##---- Do genome scan and get the ancestry proportation for individuals ----
 # Scan genomes (HapMap)
 
-HapmapScan=GenomeAdapt.gds(genfile = snpgdsExampleFileName(),method="EIGMIX",num.thread = 6, autosome.only=TRUE, remove.monosnp=TRUE, maf=0.01, missing.rate=0.1)
+HapmapScan=GenomeAdapt.gds(genfile =SNPRelate::snpgdsExampleFileName(),
+method="EIGMIX",num.thread = 6, autosome.only=TRUE, remove.monosnp=TRUE, maf=0.01, missing.rate=0.1)
 
 
 # get population information
-genofile <- SNPRelate::snpgdsOpen(snpgdsExampleFileName())
-pop_code <- read.gdsn(index.gdsn(genofile, "sample.annot/pop.group"))
+
+genofile <- SNPRelate::snpgdsOpen(SNPRelate::snpgdsExampleFileName())
+pop_code <- gdsfmt::read.gdsn(gdsfmt::index.gdsn(genofile, "sample.annot/pop.group"))
 
 # get sample id
-samp.id <- read.gdsn(index.gdsn(genofile, "sample.id"))
-snpgdsClose(genofile)
+samp.id <- gdsfmt::read.gdsn(gdsfmt::index.gdsn(genofile, "sample.id"))
+SNPRelate::snpgdsClose(genofile)
 
 # define groups
 groups <- list(CEU = samp.id[pop_code == "CEU"],

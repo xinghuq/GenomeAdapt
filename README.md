@@ -17,7 +17,7 @@ Welcome any [feedback](https://github.com/xinghuq/GenomeAdapt/issues) and [pull 
 
 ## Install the developement version from github
 
-devtools::install_github("xinghuq/GenomeAdapt")
+#devtools::install_github("xinghuq/GenomeAdapt")
 
 library("GenomeAdapt")
 
