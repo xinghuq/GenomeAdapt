@@ -1,0 +1,17 @@
+citHeader("To cite GenomeAdapt in publications use:")
+
+website <- "http://github.com/xinghuq/GenomeAdapt"
+year    <- sub("-.*","",meta$Date)
+version <- sprintf("R package version %s",meta$Version)
+
+citEntry(entry = "Manual",
+  title  = "{GenomeAdapt}: Qin, X. 2021. Detecting Signatures of Local Adaptation Based on Ancestry Trajectories",
+  author = personList(as.person("Xinghu Qin")),
+  year   = year,
+  note   = version,
+  url    = website,
+
+  textVersion =
+    paste("Qin. X. ",
+          " 2021. Detecting Signatures of Local Adaptation Based on Ancestry Trajectories", "  ",version,". ",website,sep="")
+)
